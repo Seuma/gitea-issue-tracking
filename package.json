@@ -1,0 +1,142 @@
+{
+  "name": "gitea-issue-and-timetracking",
+  "displayName": "Gitea Issue and Timetracking",
+  "description": "This is a gitea extension to get current assigned issues and track times to that issues",
+  "version": "0.0.1",
+  "publisher": "Seuma",
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:extension.helloWorld"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gitea",
+          "title": "Gitea",
+          "icon": "resources/gitea.png"
+        }
+      ]
+    },
+    "views": {
+      "gitea": [
+        {
+          "id": "giteaIssues",
+          "name": "Issues"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "gitea-issue-and-timetracking.helloWorld",
+        "title": "Hello World"
+      },
+      {
+        "command": "extension.setGiteaActiveIssue",
+        "title": "Set Active Issue"
+      },
+      {
+        "command": "extension.startGiteaTimer",
+        "title": "Start Timer"
+      },
+      {
+        "command": "extension.stopGiteaTimer",
+        "title": "Stop Timer"
+      },
+      {
+        "command": "extension.reloadGiteaIssues",
+        "title": "Reload Issues"
+      }
+    ],
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "extension.setGiteaActiveIssue",
+          "when": "view == giteaIssues",
+          "group": "inline"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "extension.reloadGiteaIssues",
+          "when": "view == giteaIssues",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.startGiteaTimer",
+          "when": "view == giteaIssues && !timerRunning",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.stopGiteaTimer",
+          "when": "view == giteaIssues && timerRunning",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "giteaIssueTracker.url": {
+          "type": "string",
+          "default": "https://your-gitea-server",
+          "description": "The base URL of the Gitea server."
+        },
+        "giteaIssueTracker.user": {
+          "type": "string",
+          "default": "",
+          "description": "The Gitea username."
+        },
+        "giteaIssueTracker.repo": {
+          "type": "string",
+          "default": "",
+          "description": "The Gitea repository."
+        },
+        "giteaIssueTracker.token": {
+          "type": "string",
+          "default": "",
+          "description": "The Gitea API token."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.config.js",
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "esbuild --watch --entry-points=src/extension.ts --bundle --outfile=out/extension.js --platform=node --external:vscode --format=cjs --sourcemap",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.14.12",
+    "@types/vscode": "^1.91.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.11.0",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "^2.4.0",
+    "esbuild": "^0.21.5",
+    "eslint": "^8.57.0",
+    "install": "^0.13.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.4.5",
+    "vscode": "^1.1.37"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
+  }
+}
