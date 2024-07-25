@@ -89,22 +89,26 @@
         "giteaIssueTracker.url": {
           "type": "string",
           "default": "https://your-gitea-server",
-          "description": "The base URL of the Gitea server."
+          "description": "The base URL of the Gitea server.",
+          "scope": "resource"
         },
         "giteaIssueTracker.user": {
           "type": "string",
           "default": "",
-          "description": "The Gitea username."
+          "description": "The Gitea username.",
+          "scope": "resource"
         },
         "giteaIssueTracker.repo": {
           "type": "string",
           "default": "",
-          "description": "The Gitea repository."
+          "description": "The Gitea repository.",
+          "scope": "resource"
         },
         "giteaIssueTracker.token": {
           "type": "string",
           "default": "",
-          "description": "The Gitea API token."
+          "description": "The Gitea API token.",
+          "scope": "resource"
         }
       }
     }
