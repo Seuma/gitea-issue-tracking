@@ -4,6 +4,9 @@
   "description": "This is a gitea extension to get current assigned issues and track times to that issues",
   "version": "0.0.1",
   "publisher": "Seuma",
+  "repository": {
+    "url": "https://git.seugames.de/SeuGames/gitea-issue-tracking"
+  },
   "engines": {
     "vscode": "^1.91.0"
   },
