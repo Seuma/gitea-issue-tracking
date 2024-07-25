@@ -2,7 +2,7 @@
   "name": "gitea-issue-and-timetracking",
   "displayName": "Gitea Issue and Timetracking",
   "description": "This is a gitea extension to get current assigned issues and track times to that issues",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "Seuma",
   "repository": {
     "url": "https://git.seugames.de/SeuGames/gitea-issue-tracking"

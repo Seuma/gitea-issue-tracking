@@ -34,6 +34,10 @@ Users appreciate release notes as you update your extension.
 
 Initial release of the Gitea Issue Time Tracking
 
+### 0.0.2
+
+Fix settings to be scoped
+
 ---
 
 ## Planned features
