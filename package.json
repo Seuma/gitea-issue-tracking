@@ -94,19 +94,19 @@
         },
         "giteaIssueTracker.user": {
           "type": "string",
-          "default": "",
+          "default": "username",
           "description": "The Gitea username.",
           "scope": "resource"
         },
         "giteaIssueTracker.repo": {
           "type": "string",
-          "default": "",
+          "default": "repository name",
           "description": "The Gitea repository.",
           "scope": "resource"
         },
         "giteaIssueTracker.token": {
           "type": "string",
-          "default": "",
+          "default": "Your private access token",
           "description": "The Gitea API token.",
           "scope": "resource"
         }
