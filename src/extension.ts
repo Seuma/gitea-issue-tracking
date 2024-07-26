@@ -2,13 +2,19 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import axios from 'axios';
+import { GiteaIssueProvider } from './giteaissueprovider'
 
 let activeIssue: any = null;
 let timer: NodeJS.Timeout | null = null;
 let timeSpent = 0;
+let asAssigned: boolean = false;
 
 function updateTimerContext(isRunning: boolean) {
 	vscode.commands.executeCommand('setContext', 'timerRunning', isRunning);
+}
+
+function updateAssignedContext(asAssigned: boolean) {
+	vscode.commands.executeCommand('setContext', 'showAssigned', asAssigned);
 }
 
 // This method is called when your extension is activated
@@ -28,7 +34,6 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		activeIssue = issue;
-		let test = issue.issue.title;
 		vscode.window.showInformationMessage(`Active issue set to: ${issue.issue.title}`);
 	});
 
@@ -65,12 +70,6 @@ export function activate(context: vscode.ExtensionContext) {
 		if (activeIssue)
 		{
 			try {
-				const config = vscode.workspace.getConfiguration('giteaIssueTracker');
-				const url = config.get('url');
-				const token = config.get('token');
-				const repo = config.get('repo');
-				const user = config.get('user');
-
 				if (timeSpent <= 0)
 				{
 					vscode.window.showErrorMessage('Not enought time spent on this issue! Aborting time tracking...')
@@ -78,15 +77,8 @@ export function activate(context: vscode.ExtensionContext) {
 					updateTimerContext(false);
 					return;
 				}
-
-				await axios.post(`${url}/api/v1/repos/${user}/${repo}/issues/${activeIssue.issue.number}/times`, {
-					time: timeSpent * 60,
-				}, {
-					headers: {
-						'Authorization': `token ${token}`,
-            			'Content-Type': 'application/json'
-					}
-				});
+				
+				await giteaIssuesProvider.updateTimeOnIssue(activeIssue, timeSpent);
 				vscode.window.showInformationMessage(`Time logged for issue: ${activeIssue.issue.title}`);
 			} catch (error) {
 				if (error instanceof Error) {
@@ -101,81 +93,31 @@ export function activate(context: vscode.ExtensionContext) {
 		updateTimerContext(false);
 	});
 
-	const reloadGiteaIssuesCommand = vscode.commands.registerCommand('extension.reloadGiteaIssues', () => {
-		giteaIssuesProvider
+	const setGiteaAssignedStatus = vscode.commands.registerCommand('extension.setGiteaAssignedFilter', () => {
+		updateAssignedContext(true);
+		asAssigned = true;
+		giteaIssuesProvider.refresh(true);
+	});
+
+	const setGiteaUnassingedStatus = vscode.commands.registerCommand('extension.setGiteaUnassignedFilter', () => {
+		updateAssignedContext(false);
+		asAssigned = false;
+		giteaIssuesProvider.refresh();
 	})
 
-	context.subscriptions.push(setGiteaActiveIssueCommand, startGiteaTimerCommand, stopGiteaTimerCommand, reloadGiteaIssuesCommand);
+	const reloadGiteaIssuesCommand = vscode.commands.registerCommand('extension.reloadGiteaIssues', () => {
+		giteaIssuesProvider.refresh(asAssigned);
+	})
+
+	context.subscriptions.push(
+		setGiteaActiveIssueCommand,
+		startGiteaTimerCommand,
+		stopGiteaTimerCommand,
+		reloadGiteaIssuesCommand,
+		setGiteaAssignedStatus,
+		setGiteaUnassingedStatus
+	);
 }
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
-
-
-
-class GiteaIssueProvider implements vscode.TreeDataProvider<IssueItem>
-{
-	private _onDidChangeTreeData: vscode.EventEmitter<IssueItem | undefined> = new vscode.EventEmitter<IssueItem | undefined>();
-	readonly onDidChangeTreeData?: vscode.Event<IssueItem | undefined> = this._onDidChangeTreeData.event;
-
-	private issues: IssueItem[] = [];
-
-	constructor()
-	{
-		this.refresh();
-	}
-
-	getTreeItem(element: IssueItem): vscode.TreeItem {
-		return element;
-	}
-
-	async getChildren(element?: IssueItem): Promise<IssueItem[]> {
-		if (element) {
-			return [];
-		} else {
-			return this.issues;
-		}
-	}
-
-	private async fetchIssues(): Promise<any[]> {
-		try {
-			const config = vscode.workspace.getConfiguration('giteaIssueTracker');
-			const url = config.get('url');
-			const token = config.get('token');
-			const repo = config.get('repo');
-			const user = config.get('user');
-			
-			//vscode.window.showInformationMessage(`${url}/api/v1/repos/${user}/${repo}/issues`);
-
-			const response = await axios.get(`${url}/api/v1/repos/${user}/${repo}/issues`, {
-			  headers: {
-				'Authorization': `token ${token}`
-			  }
-			});
-			return response.data;
-		  } catch (error) {
-			if (error instanceof Error) {
-			  vscode.window.showErrorMessage(`Failed to fetch issues: ${error.message}`);
-			} else {
-			  vscode.window.showErrorMessage(`Failed to fetch issues: ${JSON.stringify(error)}`);
-			}
-			return [];
-		  }
-	}
-
-	async refresh(): Promise<void> {
-		const issues = await this.fetchIssues();
-		this.issues = issues.map(issue => new IssueItem(issue));
-		this._onDidChangeTreeData.fire();
-	}
-}
-
-
-class IssueItem extends vscode.TreeItem
-{
-	constructor(public readonly issue: any)
-	{
-		super(issue.title, vscode.TreeItemCollapsibleState.None);
-		this.contextValue = 'issue';
-	}
-}

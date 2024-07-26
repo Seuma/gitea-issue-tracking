@@ -18,7 +18,7 @@ For example:
 This extension contributes the following settings:
 
 * `giteaIssueTracker.url`: The url of the Gitea instance. NOTE: Without the company/user, and repository name!.
-* `giteaIssueTracker.user`: The User or Organization in which the repoistory is.
+* `giteaIssueTracker.owner`: The Owner (User or Organization) in which the repoistory is.
 * `giteaIssueTracker.repo`: The name of the repository. It's case sensitive!
 * `giteaIssueTracker.token`: Your private access token! 
 

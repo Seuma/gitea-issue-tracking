@@ -55,6 +55,15 @@
       {
         "command": "extension.reloadGiteaIssues",
         "title": "Reload Issues"
+      },
+      {
+        "command": "extension.setGiteaAssignedFilter",
+        "title": "Show assinged Issues",
+        "shortTitle": "Show assinged"
+      },
+      {
+        "command": "extension.setGiteaUnassignedFilter",
+        "title": "Show all Issues"
       }
     ],
     "menus": {
@@ -80,6 +89,16 @@
           "command": "extension.stopGiteaTimer",
           "when": "view == giteaIssues && timerRunning",
           "group": "navigation"
+        },
+        {
+          "command": "extension.setGiteaAssignedFilter",
+          "when": "view == giteaIssues && !showAssigned",
+          "group": "navigation"
+        },
+        {
+          "command": "extension.setGiteaUnassignedFilter",
+          "when": "view == giteaIssues && showAssigned",
+          "group": "navigation"
         }
       ]
     },
@@ -92,7 +111,7 @@
           "description": "The base URL of the Gitea server.",
           "scope": "resource"
         },
-        "giteaIssueTracker.user": {
+        "giteaIssueTracker.owner": {
           "type": "string",
           "default": "username",
           "description": "The Gitea username.",
