@@ -8,6 +8,7 @@ let activeIssue: any = null;
 let timer: NodeJS.Timeout | null = null;
 let timeSpent = 0;
 let asAssigned: boolean = false;
+let isPause: boolean = false;
 
 function updateTimerContext(isRunning: boolean) {
 	vscode.commands.executeCommand('setContext', 'timerRunning', isRunning);
@@ -15,6 +16,10 @@ function updateTimerContext(isRunning: boolean) {
 
 function updateAssignedContext(asAssigned: boolean) {
 	vscode.commands.executeCommand('setContext', 'showAssigned', asAssigned);
+}
+
+function updatePausedContext() {
+	vscode.commands.executeCommand('setContext', 'isPaused', isPause);
 }
 
 // This method is called when your extension is activated
@@ -51,10 +56,21 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.setStatusBarMessage(`Time spent on issue ${activeIssue.issue.title}: ${timeSpent} minutes`);
 
 		timer = setInterval(() => {
+			if (isPause) return;
 			timeSpent++;
 			vscode.window.setStatusBarMessage(`Time spent on issue ${activeIssue.issue.title}: ${timeSpent} minutes`);
 		}, 60000);
 		updateTimerContext(true);
+	});
+
+	const pauseGiteaTimerCommand = vscode.commands.registerCommand('extension.pauseGiteaTimer', () => {
+		isPause = true;
+		updatePausedContext();
+	});
+
+	const unpauseGiteaTimerCommand = vscode.commands.registerCommand('extension.unpauseGiteaTimer', () => {
+		isPause = false;
+		updatePausedContext();
 	});
 
 	const stopGiteaTimerCommand = vscode.commands.registerCommand('extension.stopGiteaTimer', async () => {
@@ -115,7 +131,9 @@ export function activate(context: vscode.ExtensionContext) {
 		stopGiteaTimerCommand,
 		reloadGiteaIssuesCommand,
 		setGiteaAssignedStatus,
-		setGiteaUnassingedStatus
+		setGiteaUnassingedStatus,
+		pauseGiteaTimerCommand,
+		unpauseGiteaTimerCommand
 	);
 }
 
