@@ -4,6 +4,28 @@ All notable changes to the "gitea-issue-and-timetracking" extension will be docu
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## 0.0.1
 
-- Initial release
+Initial release of the Gitea Issue Time Tracking
+
+## 0.0.2
+
+Fix settings to be scoped
+
+## 0.0.3
+
+### Added
+
+- Paus function
+- unpause function
+- Filter for self assigned issues
+- Button icons
+
+### Fixed
+
+- Improve of code structure
+
+### Changed
+
+- Order of buttons in view
+- Naming of gitea repo owner to "owner" (previously named "user")

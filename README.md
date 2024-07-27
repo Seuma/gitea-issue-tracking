@@ -26,24 +26,36 @@ This extension contributes the following settings:
 
 It is known that **all** issues are displayed. There is no filter as of now.
 
+## Planned features
+
+In the future it should be possible to be abel to close an issue or even open an issue.
+
+More advanced filter for searching through the issues (for the title of an Issue)
+
+
 ## Release Notes
 
 Users appreciate release notes as you update your extension.
 
-### 0.0.1
+## 0.0.3
 
-Initial release of the Gitea Issue Time Tracking
+### Added
 
-### 0.0.2
+- Paus function
+- unpause function
+- Filter for self assigned issues
+- Button icons
 
-Fix settings to be scoped
+### Fixed
+
+- Improve of code structure
+
+### Changed
+
+- Order of buttons in view
+- Naming of gitea repo owner to "owner" (previously named "user")
+
 
 ---
-
-## Planned features
-
-Be able to filter the Issues. At first only for the one which are assigned to one.
-
-In the future it should be possible to be abel to close an issue or even open an issue.
 
 **Enjoy!**
