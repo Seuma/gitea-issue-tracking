@@ -1,8 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import axios from 'axios';
-import { GiteaIssueProvider } from './giteaissueprovider'
+import { GiteaIssueProvider } from './giteaissueprovider';
 
 let activeIssue: any = null;
 let timer: NodeJS.Timeout | null = null;
@@ -56,7 +55,9 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.window.setStatusBarMessage(`Time spent on issue ${activeIssue.issue.title}: ${timeSpent} minutes`);
 
 		timer = setInterval(() => {
-			if (isPause) return;
+			if (isPause) {
+				return;
+			}
 			timeSpent++;
 			vscode.window.setStatusBarMessage(`Time spent on issue ${activeIssue.issue.title}: ${timeSpent} minutes`);
 		}, 60000);
@@ -88,7 +89,7 @@ export function activate(context: vscode.ExtensionContext) {
 			try {
 				if (timeSpent <= 0)
 				{
-					vscode.window.showErrorMessage('Not enought time spent on this issue! Aborting time tracking...')
+					vscode.window.showErrorMessage('Not enought time spent on this issue! Aborting time tracking...');
 					timeSpent = 0;
 					updateTimerContext(false);
 					return;
@@ -119,11 +120,11 @@ export function activate(context: vscode.ExtensionContext) {
 		updateAssignedContext(false);
 		asAssigned = false;
 		giteaIssuesProvider.refresh();
-	})
+	});
 
 	const reloadGiteaIssuesCommand = vscode.commands.registerCommand('extension.reloadGiteaIssues', () => {
 		giteaIssuesProvider.refresh(asAssigned);
-	})
+	});
 
 	context.subscriptions.push(
 		setGiteaActiveIssueCommand,

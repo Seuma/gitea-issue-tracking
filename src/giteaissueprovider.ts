@@ -25,8 +25,8 @@ export class GiteaIssueProvider implements vscode.TreeDataProvider<GiteaIssueIte
 
 		const user = this.fetchUser();
 
-		if (user != null || user != "") {
-			this.user = user
+		if (user !== null || user !== "") {
+			this.user = user;
 		}
 		
 		this.refresh();
@@ -51,7 +51,7 @@ export class GiteaIssueProvider implements vscode.TreeDataProvider<GiteaIssueIte
 
 			if (withUser) {
 				url = url + `?assigned_by=${this.user.login}`;
-				vscode.window.showInformationMessage(`login user: ${this.user.login}`)
+				vscode.window.showInformationMessage(`login user: ${this.user.login}`);
 			}
 
 			const response = await axios.get(url, {
@@ -91,7 +91,9 @@ export class GiteaIssueProvider implements vscode.TreeDataProvider<GiteaIssueIte
 	}
 
 	async refresh(withUser = false): Promise<void> {
-		if (withUser) this.user = await this.fetchUser();
+		if (withUser) {
+			this.user = await this.fetchUser();
+		}
 		
 		const issues = await this.fetchIssues(withUser);
 		this.issues = issues.map(issue => new GiteaIssueItem(issue));
