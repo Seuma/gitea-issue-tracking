@@ -151,14 +151,14 @@
         },
         "giteaIssueTracker.owner": {
           "type": "string",
-          "default": "username",
-          "description": "The Gitea username.",
+          "default": "owner",
+          "description": "The Gitea Repository owner.",
           "scope": "resource"
         },
         "giteaIssueTracker.repo": {
           "type": "string",
           "default": "repository name",
-          "description": "The Gitea repository.",
+          "description": "The Gitea repository name.",
           "scope": "resource"
         },
         "giteaIssueTracker.token": {
