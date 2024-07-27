@@ -37,23 +37,12 @@ More advanced filter for searching through the issues (for the title of an Issue
 
 Users appreciate release notes as you update your extension.
 
-## 0.0.3
-
-### Added
-
-- Paus function
-- unpause function
-- Filter for self assigned issues
-- Button icons
+## 0.0.4
 
 ### Fixed
 
-- Improve of code structure
-
-### Changed
-
-- Order of buttons in view
-- Naming of gitea repo owner to "owner" (previously named "user")
+- Description of settings
+- Default of settings
 
 
 ---

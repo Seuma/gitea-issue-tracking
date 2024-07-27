@@ -29,3 +29,11 @@ Fix settings to be scoped
 
 - Order of buttons in view
 - Naming of gitea repo owner to "owner" (previously named "user")
+
+## 0.0.4
+
+### Fixed
+
+- Description of settings
+- Default of settings
+
