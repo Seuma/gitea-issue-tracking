@@ -46,15 +46,52 @@
       },
       {
         "command": "extension.startGiteaTimer",
-        "title": "Start Timer"
+        "title": "Start Timer",
+        "icon": {
+          "dark": "./resources/iconfiles/play_dark.svg",
+          "light": "./resources/iconfiles/play_light.svg"
+        }
       },
       {
         "command": "extension.stopGiteaTimer",
-        "title": "Stop Timer"
+        "title": "Stop Timer",
+        "icon": {
+          "dark": "./resources/iconfiles/stop_dark.svg",
+          "light": "./resources/iconfiles/stop_light.svg"
+        }
+      },
+      {
+        "command": "extension.pauseGiteaTimer",
+        "title": "Pause Timer",
+        "icon": {
+          "dark": "./resources/iconfiles/pause_dark.svg",
+          "light": "./resources/iconfiles/pause_light.svg"
+        }
+      },
+      {
+        "command": "extension.unpauseGiteaTimer",
+        "title": "Unpause Timer",
+        "icon": {
+          "dark": "./resources/iconfiles/unpause_dark.svg",
+          "light": "./resources/iconfiles/unpause_light.svg"
+        }
       },
       {
         "command": "extension.reloadGiteaIssues",
-        "title": "Reload Issues"
+        "title": "Reload Issues",
+        "icon": {
+          "dark": "./resources/iconfiles/reload_dark.svg",
+          "light": "./resources/iconfiles/reload_light.svg"
+        }
+      },
+      {
+        "command": "extension.setGiteaAssignedFilter",
+        "title": "Show assinged Issues",
+        "shortTitle": "Show assinged"
+      },
+      {
+        "command": "extension.setGiteaUnassignedFilter",
+        "title": "Show all Issues"
       }
     ],
     "menus": {
@@ -69,17 +106,37 @@
         {
           "command": "extension.reloadGiteaIssues",
           "when": "view == giteaIssues",
-          "group": "navigation"
+          "group": "navigation@3"
         },
         {
           "command": "extension.startGiteaTimer",
           "when": "view == giteaIssues && !timerRunning",
-          "group": "navigation"
+          "group": "navigation@4"
+        },
+        {
+          "command": "extension.pauseGiteaTimer",
+          "when": "view == giteaIssues && timerRunning && !isPaused",
+          "group": "navigation@5"
+        },
+        {
+          "command": "extension.unpauseGiteaTimer",
+          "when": "view == giteaIssues && timerRunning && isPaused",
+          "group": "navigation@6"
         },
         {
           "command": "extension.stopGiteaTimer",
           "when": "view == giteaIssues && timerRunning",
-          "group": "navigation"
+          "group": "navigation@7"
+        },
+        {
+          "command": "extension.setGiteaAssignedFilter",
+          "when": "view == giteaIssues && !showAssigned",
+          "group": "navigation@2"
+        },
+        {
+          "command": "extension.setGiteaUnassignedFilter",
+          "when": "view == giteaIssues && showAssigned",
+          "group": "navigation@1"
         }
       ]
     },
@@ -92,7 +149,7 @@
           "description": "The base URL of the Gitea server.",
           "scope": "resource"
         },
-        "giteaIssueTracker.user": {
+        "giteaIssueTracker.owner": {
           "type": "string",
           "default": "username",
           "description": "The Gitea username.",
