@@ -37,3 +37,9 @@ Fix settings to be scoped
 - Description of settings
 - Default of settings
 
+## 0.0.5
+
+### Updated
+
+- Readme: Remove lines which where left from template
+- Repository Link: Update Repository Link to point to GitHub Repo
